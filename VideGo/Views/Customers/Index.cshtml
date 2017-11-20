@@ -5,7 +5,7 @@
 }
 
 
-@if (Model.Customers.Count == 0)
+@if (Model.Customers.Count() == 0)
 {
     <text>No one has rented this movie before.</text>
 }
@@ -15,14 +15,16 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th><h2>Customers</h2>gty</th>
+                <th><h2>Customers</h2></th>
+                <th>Discount Rate</th>
             </tr>
         </thead>
 
         @foreach (var customer in Model.Customers)
         {
             <tr>
-                <td><a href="Customers/Details/@customer.Id">@customer.Name</a></td>
+                <td><a href="/Customers/Details/@customer.Id">@customer.Name</a></td>
+                <td>@customer.MembershipType.DiscountRate%</td>
             </tr>
         }
                

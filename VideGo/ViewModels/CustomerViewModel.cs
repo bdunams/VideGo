@@ -8,6 +8,6 @@ namespace VideGo.ViewModels
 {
     public class CustomerViewModel
     {
-        public List<Customer> Customers { get; set; }
+        public IEnumerable<Customer> Customers { get; set; }
     }
 }

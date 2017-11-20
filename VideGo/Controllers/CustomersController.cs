@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,15 +12,21 @@ namespace VideGo.Controllers
     public class CustomersController : Controller
     {
         // GET: Customers
-        public List<Customer> customers { get; set; }
+        private ApplicationDbContext _context;
+
+        public CustomersController()
+        {
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
 
         public ActionResult Index()
         {
-            customers = new List<Customer>
-            {
-                new Customer { Name = "Brian" , Id = 0 },
-                new Customer { Name = "Todd" , Id = 1 }
-            };
+            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
 
             var customerViewModel = new CustomerViewModel
             {
@@ -32,16 +39,15 @@ namespace VideGo.Controllers
         [Route("Customers/Details/{id}")]
         public ActionResult Details( int id )
         {
-            customers = new List<Customer>
+            var customers = _context.Customers.ToList();
+
+            if (customers.Count < id)
             {
-                new Customer { Name = "Brian" , Id = 0 },
-                new Customer { Name = "Todd" , Id = 1 }
-            };
-
-            if (customers.Count <= id)
                 return HttpNotFound();
+            }
 
-            return View(customers.ElementAtOrDefault(id));
+            return View(customers.ElementAtOrDefault(id - 1));
         }
+
     }
 }
