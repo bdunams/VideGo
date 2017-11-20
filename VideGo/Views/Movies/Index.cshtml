@@ -1,0 +1,28 @@
+﻿@model VideGo.ViewModels.MovieViewModel
+@{
+    ViewBag.Title = "Random";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Movies.Count == 0)
+{
+    <text>No one has rented this movie before.</text>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th><h2>Movies</h2></th>
+            </tr>
+        </thead>
+
+        @foreach (var movie in Model.Movies)
+        {
+            <tr>
+                <td><a href="Movies/Details/@movie.Id">@movie.Title</a></td>
+            </tr>
+        }
+
+    </table>
+}

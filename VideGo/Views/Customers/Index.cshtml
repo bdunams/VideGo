@@ -1,0 +1,31 @@
+﻿@model VideGo.ViewModels.CustomerViewModel
+@{
+    ViewBag.Title = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (Model.Customers.Count == 0)
+{
+    <text>No one has rented this movie before.</text>
+}
+else
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th><h2>Customers</h2>gty</th>
+            </tr>
+        </thead>
+
+        @foreach (var customer in Model.Customers)
+        {
+            <tr>
+                <td><a href="Customers/Details/@customer.Id">@customer.Name</a></td>
+            </tr>
+        }
+               
+    </table>
+    
+}
