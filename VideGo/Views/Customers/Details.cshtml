@@ -8,3 +8,9 @@
 
 <h3>@Model.Name</h3>
 <h4>Subcribed: @Model.IsSubscribedToNewsletter</h4>
+@{ 
+    if (Model.Birthdate != null)
+    {
+        <h4>Birthdate: @Model.Birthdate.Value.ToString("MM/dd/yyyy")</h4>
+    }
+}
