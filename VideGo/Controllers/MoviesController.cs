@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,15 +12,21 @@ namespace VideGo.Controllers
     public class MoviesController : Controller
     {
         public List<Movie> Movies { get; set; }
-        // GET: Movies
+        private ApplicationDbContext _context;
+
+        public MoviesController()
+        {
+            _context = new ApplicationDbContext();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
 
         public ActionResult Index()
         {
-            var movies = new List<Movie>
-            {
-                new Movie { Title = "Alien: Covenant", Id = 0 },
-                new Movie { Title = "The Last Samurai", Id = 1 }
-            };
+            var movies = _context.Movies.Include(m => m.Genre).ToList();
 
             var movieModel = new MovieViewModel
             {
@@ -29,23 +36,17 @@ namespace VideGo.Controllers
             return View(movieModel);
         }
 
-        public ActionResult Random()
+        [Route("Movies/Details/{id}")]
+        public ActionResult Details( int id )
         {
+            var movies = _context.Movies.Include(m => m.Genre).ToList();
 
-
-            var movie = new Movie() { Title = "Alien: Covenant" };
-
-            var viewModel = new MovieViewModel
+            if (movies.Count < id || id < 1)
             {
-                Movie = movie
-            };
+                return HttpNotFound();
+            }
 
-            return View(viewModel);
-        }
-
-        public ActionResult Edit(int id)
-        {
-            return Content("id = " + id);
+            return View(movies.ElementAtOrDefault(id - 1));
         }
 
         
