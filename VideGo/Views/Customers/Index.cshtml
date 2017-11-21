@@ -16,7 +16,7 @@ else
         <thead>
             <tr>
                 <th><h2>Customers</h2></th>
-                <th>Discount Rate</th>
+                <th>Membership Type</th>
             </tr>
         </thead>
 
@@ -24,7 +24,7 @@ else
         {
             <tr>
                 <td><a href="/Customers/Details/@customer.Id">@customer.Name</a></td>
-                <td>@customer.MembershipType.DiscountRate%</td>
+                <td>@customer.MembershipType.Name</td>
             </tr>
         }
                
