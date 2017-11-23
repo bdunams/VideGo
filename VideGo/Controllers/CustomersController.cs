@@ -27,12 +27,21 @@ namespace VideGo.Controllers
         public ActionResult New()
         {
             var membershipTypes = _context.MembershipTypes.ToList();
-            var viewModel = new NewCustomerViewModel
+            var viewModel = new CustomerFormViewModel
             {
                 MembershipTypes = membershipTypes,
             };
 
-            return View(viewModel);
+            return View(viewName: "CustomerForm", model: viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Create(CustomerFormViewModel viewModel)
+        {
+            _context.Customers.Add(viewModel.Customer);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Customers");
         }
 
         public ActionResult Index()
@@ -47,7 +56,7 @@ namespace VideGo.Controllers
             return View(customerViewModel);
         }
 
-        [Route("Customers/Details/{id}")]
+        [Route(@"Customers/Details/{id}")]
         public ActionResult Details( int id )
         {
             var customers = _context.Customers.ToList();
@@ -60,5 +69,21 @@ namespace VideGo.Controllers
             return View(customers.ElementAtOrDefault(id - 1));
         }
 
+        [Route(@"Customers/Edit/{id}")]
+        public ActionResult Edit(int id)
+        {
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+
+            if (customer == null)
+                return HttpNotFound();
+
+            var viewModel = new CustomerFormViewModel
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipTypes.ToList()
+            };
+
+            return View(viewName: "CustomerForm", model: viewModel);
+        }
     }
 }
