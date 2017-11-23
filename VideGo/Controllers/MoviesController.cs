@@ -36,6 +36,17 @@ namespace VideGo.Controllers
             return View(movieModel);
         }
 
+        public ActionResult New()
+        {
+            var genres = _context.Genres.ToList();
+            var viewModel = new MovieFormViewModel
+            {
+                Genres = genres
+            };
+
+            return View(viewName: "MovieForm", model: viewModel);
+        }
+
         [Route("Movies/Details/{id}")]
         public ActionResult Details( int id )
         {
@@ -49,12 +60,39 @@ namespace VideGo.Controllers
             return View(movies.ElementAtOrDefault(id - 1));
         }
 
-        
-
-        [Route("movies/released/{year}/{month}")]
-        public ActionResult byReleaseDate(int year, int month)
+        public ActionResult Save(Movie movie)
         {
-            return Content(year + "/" + month);
+            if (movie.Id == 0)
+                _context.Movies.Add(movie);
+            else
+            {
+                var movieInDb = _context.Movies.Single(m => m.Id == movie.Id);
+
+                movieInDb.Title = movie.Title;
+                movieInDb.ReleaseDate = movie.ReleaseDate;
+                movieInDb.GenreId = movie.GenreId;
+                movieInDb.NumberInStock = movie.NumberInStock;
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Customers");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
+
+            if (movie == null)
+                return HttpNotFound();
+
+            var viewModel = new MovieFormViewModel
+            {
+                Movie = movie,
+                Genres = _context.Genres.ToList()
+            };
+
+            return View(viewName: "MovieForm", model: viewModel);
         }
     }
 }
