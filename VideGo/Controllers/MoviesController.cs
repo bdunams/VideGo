@@ -72,6 +72,7 @@ namespace VideGo.Controllers
                 movieInDb.ReleaseDate = movie.ReleaseDate;
                 movieInDb.GenreId = movie.GenreId;
                 movieInDb.NumberInStock = movie.NumberInStock;
+                //movieInDb.DateAdded = DateTime.Now;
             }
 
             _context.SaveChanges();

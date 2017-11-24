@@ -3,6 +3,8 @@
     ViewBag.Title = "Random";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<br />
+@Html.ActionLink("New Movie", "New", "Movies", null, new { @class = "btn btn-primary" })
 
 @if (Model.Movies.Count == 0)
 {
@@ -10,6 +12,8 @@
 }
 else
 {
+
+
     <table class="table">
         <thead>
             <tr>
