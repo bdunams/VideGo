@@ -23,6 +23,7 @@ namespace VideGo.Models
         public DateTime DateAdded { get; set; }
 
         [Required]
+        [Range(1, 20, ErrorMessage = "The Number in Stock must be between 1 and 20.")]
         [Display(Name = "Number In Stock")]
         public int NumberInStock { get; set; }
 
