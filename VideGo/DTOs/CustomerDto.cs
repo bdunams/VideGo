@@ -17,7 +17,7 @@ namespace VideGo.DTOs
 
         public bool IsSubscribedToNewsletter { get; set; }
 
-        [Min18YearsIfAMember]
+        //[Min18YearsIfAMember]
         public DateTime? Birthdate { get; set; }
 
         public byte MembershipTypeId { get; set; }
