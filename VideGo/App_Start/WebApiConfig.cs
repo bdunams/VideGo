@@ -17,8 +17,8 @@ namespace VideGo
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             settings.Formatting = Formatting.Indented;
 
-            config.Formatters.JsonFormatter.SupportedMediaTypes
-                .Add(new MediaTypeHeaderValue("text/html"));
+            //config.Formatters.JsonFormatter.SupportedMediaTypes
+             //   .Add(new MediaTypeHeaderValue("text/html"));
 
             config.Formatters.JsonFormatter.MediaTypeMappings
                 .Add(new QueryStringMapping("json", "true", "application/json"));

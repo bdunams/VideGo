@@ -20,12 +20,14 @@ namespace VideGo.Controllers.Api
         }
 
         // GET /api/customers
+        [HttpGet]
         public IHttpActionResult GetCustomers()
         {
             return Ok(_context.Customers.ToList().Select(Mapper.Map<Customer, CustomerDTO>));
         }
 
         // GET /api/customers/1
+        [HttpGet]
         public IHttpActionResult GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
@@ -41,7 +43,7 @@ namespace VideGo.Controllers.Api
         public IHttpActionResult CreateCustomer(CustomerDTO customerDTO)
         {
             if (!ModelState.IsValid)
-                return BadRequest("Data in the wrong format");
+                return BadRequest("Data entered in the wrong format");
 
             var customer = Mapper.Map<CustomerDTO, Customer>(customerDTO);
             _context.Customers.Add(customer);
