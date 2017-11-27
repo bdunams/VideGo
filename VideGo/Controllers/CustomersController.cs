@@ -70,14 +70,14 @@ namespace VideGo.Controllers
 
         public ActionResult Index()
         {
-            var customers = _context.Customers.Include(c => c.MembershipType).ToList();
+            //var customers = _context.Customers.Include(c => c.MembershipType).ToList();
 
-            var customerViewModel = new CustomerViewModel
-            {
-                Customers = customers
-            };
+            //var customerViewModel = new CustomerViewModel
+            //{
+            //    Customers = customers
+            //};
 
-            return View(customerViewModel);
+            return View();
         }
 
         [Route(@"Customers/Details/{id}")]

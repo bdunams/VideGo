@@ -4,13 +4,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-@if (Model.Customers.Count() == 0)
-{
-    <text>No one has rented this movie before.</text>
-}
-else
-{
     <h2>Customers</h2>
 
     <table id="customers" class="table table-bordered table-hover">
@@ -22,7 +15,7 @@ else
             </tr>
         </thead>
 
-        @foreach (var customer in Model.Customers)
+        @*@foreach (var customer in Model.Customers)
         {
             <tr>
                 <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new {id = customer.Id }, null)</td>
@@ -31,19 +24,38 @@ else
                     <button data-customer-id="@customer.Id" class="btn-link js-delete">Delete</button>
                 </td>
             </tr>
-        }
+        }*@
                
     </table>
     
-    
-}
 
 @section scripts
 {
     <script>
         $(document).ready(function () {
             $("#customers").DataTable({
-
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, customer) {
+                            return `<a href='/Customers/edit/${customer.id}'>${customer.name}</a>`;
+                        }
+                    },
+                    {
+                        data: "name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            console.log(data)
+                            return `<button data-customer-id='${data}' class='btn-link js-delete'>Delete</button>`;
+                        }
+                    }
+                ]
             });
 
             $("#customers").on("click", ".js-delete", function () {
