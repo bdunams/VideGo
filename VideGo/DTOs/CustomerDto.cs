@@ -21,5 +21,7 @@ namespace VideGo.DTOs
         public DateTime? Birthdate { get; set; }
 
         public byte MembershipTypeId { get; set; }
+
+        public MembershipTypeDTO MembershipType { get; set; }
     }
 }

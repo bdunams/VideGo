@@ -46,12 +46,11 @@
                         }
                     },
                     {
-                        data: "name"
+                        data: "membershipType.name"
                     },
                     {
                         data: "id",
                         render: function (data) {
-                            console.log(data)
                             return `<button data-customer-id='${data}' class='btn-link js-delete'>Delete</button>`;
                         }
                     }
