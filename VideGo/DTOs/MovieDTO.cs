@@ -28,5 +28,7 @@ namespace VideGo.DTOs
 
         [Display(Name = "Genre")]
         public byte GenreId { get; set; }
+
+        public GenreDTO Genre { get; set; }
     }
 }

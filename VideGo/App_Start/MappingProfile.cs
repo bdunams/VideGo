@@ -16,6 +16,7 @@ namespace VideGo.App_Start
             Mapper.CreateMap<Customer, CustomerDTO>();
             Mapper.CreateMap<Movie, MovieDTO>();
             Mapper.CreateMap<MembershipType, MembershipTypeDTO>();
+            Mapper.CreateMap<Genre, GenreDTO>();
 
 
             // Map DTO to Domain

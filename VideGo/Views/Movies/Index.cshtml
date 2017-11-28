@@ -1,34 +1,69 @@
 ﻿@model VideGo.ViewModels.MovieViewModel
 @{
-    ViewBag.Title = "Random";
+    ViewBag.Title = "Movies";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br />
 @Html.ActionLink("New Movie", "New", "Movies", null, new { @class = "btn btn-primary" })
 
-@if (Model.Movies.Count == 0)
-{
-    <text>No one has rented this movie before.</text>
-}
-else
-{
+    <h2>Movies</h2>
 
-
-    <table class="table">
+    <table id="movies" class="table table-hover table-bordered">
         <thead>
             <tr>
-                <th><h2>Movies</h2></th>
+                <th>Movies</th>
                 <th>Genres</th>
+                <th>Delete</th>
             </tr>
         </thead>
-
-        @foreach (var movie in Model.Movies)
-        {
-            <tr>
-                <td>@Html.ActionLink(movie.Title, "Edit", "Movies", new { id = movie.Id }, null)</td>
-                <td>@movie.Genre.Name</td>
-            </tr>
-        }
-
     </table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#movies").DataTable({
+                ajax: {
+                    url: "/api/movies",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "title",
+                        render: function (data, type, movie) {
+                            return `<a href='/Movies/edit/${movie.id}'>${movie.title}</a>`;
+                        }
+                    },
+                    {
+                        data: "genre.name"
+                    },
+                    {
+                        data: "id",
+                        render: function (data) {
+                            return `<button data-movie-id='${data}' class='btn-link js-delete'>Delete</button>`;
+                        }
+                    }
+                ]
+            });
+
+            $("#movies").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                bootbox.confirm("<h3>Are you sure you want to delete</h3>", function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/api/movies/" + button.attr("data-movie-id"),
+                            method: "DELETE",
+                            success: function () {
+                                table
+                                    .row(button.parents("tr"))
+                                    .remove()
+                                    .draw();
+                            }
+                        })
+                    }
+                });
+            })
+        });
+    </script>
 }
