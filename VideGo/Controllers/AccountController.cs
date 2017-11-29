@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using VideGo.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace VideGo.Controllers
 {
