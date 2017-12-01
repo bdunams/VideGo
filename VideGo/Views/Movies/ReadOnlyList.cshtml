@@ -1,0 +1,38 @@
+﻿@model VideGo.ViewModels.MovieViewModel
+@{
+    ViewBag.Title = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>Movies</h2>
+
+    <table id="movies" class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Movies</th>
+                <th>Genres</th>
+            </tr>
+        </thead>
+    </table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $("#movies").DataTable({
+                ajax: {
+                    url: "/api/movies",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "title",
+                    },
+                    {
+                        data: "genre.name"
+                    }
+                ]
+            });
+        });
+    </script>
+}
