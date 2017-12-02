@@ -156,6 +156,7 @@ namespace VideGo.Controllers
                 {
                     UserName = model.Email,
                     Email = model.Email,
+                    Phone = model.Phone,
                     DrivingLicense = model.DrivingLicense
                 };
                 var result = await UserManager.CreateAsync(user, model.Password);

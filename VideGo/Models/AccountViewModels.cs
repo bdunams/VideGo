@@ -83,6 +83,10 @@ namespace VideGo.Models
         [Required]
         [Display(Name = "Driving License")]
         public string DrivingLicense { get; set; }
+        
+        [Required]
+        [Display(Name = "Phone Number ie. 555-555-5555")]
+        public string Phone { get; set; }
     }
 
     public class ResetPasswordViewModel
