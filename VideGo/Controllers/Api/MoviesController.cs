@@ -22,10 +22,16 @@ namespace VideGo.Controllers.Api
 
         // GET /api/movies
         [HttpGet]
-        public IHttpActionResult GetMovies()
+        public IHttpActionResult GetMovies(string query = null)
         {
-            var movieDTOs = _context.Movies
+            var moviesQuery = _context.Movies
                 .Include(m => m.Genre)
+                .Where(m => m.NumberAvailable > 0);
+
+            if (!String.IsNullOrWhiteSpace(query))
+                moviesQuery = moviesQuery.Where(m => m.Title.Contains(query));
+
+            var movieDTOs = moviesQuery
                 .ToList()
                 .Select(Mapper.Map<Movie, MovieDTO>);
 
