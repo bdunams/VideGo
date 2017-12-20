@@ -26,9 +26,6 @@ namespace VideGo.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateNewRental(NewRentalDTO newRental)
         {
-            if(!ModelState.IsValid)
-                return BadRequest();
-
             var customer = _context.Customers.Single(
                 c => c.Id == newRental.CustomerId);
 
@@ -51,6 +48,8 @@ namespace VideGo.Controllers.Api
 
                 _context.Rentals.Add(rental);
             }
+
+            _context.SaveChanges();
 
             return Ok();
         }
