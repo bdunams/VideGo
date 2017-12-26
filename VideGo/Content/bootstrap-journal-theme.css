@@ -1526,7 +1526,7 @@ h6,
 .h5,
 .h6 {
     font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1.1;
     color: #000000;
 }
@@ -8201,7 +8201,7 @@ button.close {
 .navbar {
     font-size: 18px;
     font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .navbar-default .badge {
@@ -8216,7 +8216,7 @@ button.close {
 
 .navbar-brand {
     font-size: inherit;
-    font-weight: 700;
+    font-weight: 600;
     text-transform: uppercase;
 }
 
@@ -8290,7 +8290,7 @@ button.close {
 .jumbotron h5,
 .jumbotron h6 {
     font-family: "News Cycle", "Arial Narrow Bold", sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     color: #000;
 }
 
