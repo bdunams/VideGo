@@ -30,3 +30,18 @@ textarea {
 .input-validation-error, input.error {
     border: 2px solid red;
 }
+
+.jumbotron {
+    background:url("movie-image.jpeg") no-repeat center;
+    min-height: 340px;
+}
+
+.info-text{
+    color:white;
+}
+
+.home-subtitle {
+    padding-bottom: 5px;
+    border-bottom: 3px solid #EB6864;
+    max-width: 35%;
+}
