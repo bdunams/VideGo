@@ -26,6 +26,8 @@ namespace VideGo.DTOs
         [Display(Name = "Number In Stock")]
         public int NumberInStock { get; set; }
 
+        public int NumberAvailable { get; set; }
+
         [Display(Name = "Genre")]
         public byte GenreId { get; set; }
 
