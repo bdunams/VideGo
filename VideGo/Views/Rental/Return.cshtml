@@ -39,7 +39,7 @@
         $(document).ready(function () {
 
             let vm = {
-                rentalIds: []
+                ids: []
             };
 
             function renderRentalData(rentalData) {
@@ -67,7 +67,7 @@
 
                 let rentalId = $(this).attr("data-rentalId");
            
-                vm.rentalIds.push(rentalId);
+                vm.ids.push(rentalId);
             })
 
             

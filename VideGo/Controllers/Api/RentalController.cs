@@ -73,10 +73,10 @@ namespace VideGo.Controllers.Api
         }
 
         [HttpPut]
-        public IHttpActionResult ReturnRental(RentalDTO newRental)
+        public IHttpActionResult ReturnRental(RentalDTO rentals)
         {
             var customer = _context.Customers.Single(
-                c => c.Id == newRental.CustomerId);
+                c => c.Id == rentals.CustomerId);
 
             if (customer == null)
                 return BadRequest();
@@ -84,25 +84,17 @@ namespace VideGo.Controllers.Api
             var customerRentals = _context.Rentals
                 .Include(r => r.Movie)
                 .Where(r => r.DateReturned == null)
-                .Where(r => newRental.ids.Contains(r.Id));
+                .Where(r => rentals.ids.Contains(r.Id));
 
             foreach (var rental in customerRentals)
             {
-                if (rental.Movie.NumberAvailable == 0)
-                    return BadRequest("Movie is not available.");
+                if (rental.DateReturned != null)
+                    return BadRequest("Cannot return movie, already returned.");
 
                 rental.Movie.NumberAvailable++;
 
                 rental.DateReturned = DateTime.Now;
 
-                //var rental = new Rental
-                //{
-                //    Customer = customer,
-                //    Movie = movie,
-                //    DateRented = DateTime.Now
-                //};
-
-                //_context.Rentals.Add(rental);
             }
 
             _context.SaveChanges();
