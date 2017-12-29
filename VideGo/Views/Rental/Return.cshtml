@@ -6,7 +6,7 @@
 
 <h2>Return Rental</h2>
 
-<form id="newRental">
+<form id="new-return">
     <div class="form-group">
         <label>Customer</label>
         <div class="tt-container">
@@ -14,7 +14,22 @@
         </div>
     </div>
 
+
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div id="rental-results"></div>
+
+            <ul id="current-rentals" class="list-group"></ul>
+
+            <ul id="previous-rentals" class="list-group"></ul>
+
+        </div>
+    </div>
+    <br />
+    <button class="btn btn-success">Return Movies</button>
 </form>
+
+
 
 
 @section scripts
@@ -24,8 +39,38 @@
         $(document).ready(function () {
 
             let vm = {
-                movieIds: []
+                rentalIds: []
             };
+
+            function renderRentalData(rentalData) {
+                $("#current-rentals").prepend("<h3>Current Rentals</h3>");
+
+                rentalData.forEach(function (rental) {
+                    if (rental.dateReturned === null) {
+                        var rentalListItem = $("<li>").addClass("list-group-item col-md-12");
+
+                        rentalListItem.append(`<div class="col-md-8">
+                            <h4>${rental.movie.title}</h4>
+                            <p>${rental.dateRented}</p></div>`)
+
+                        rentalListItem.append(`<br/><button class="btn btn-primary return-button" data-rentalId="${rental.id}" col-md-4">Add Return</button>`);
+
+                        $("#current-rentals").append(rentalListItem); 
+                    }
+                })
+            }
+
+            $("#current-rentals").on("click", ".return-button", function (e) {
+                e.preventDefault();
+
+                $(this).addClass("btn-success").removeClass("btn-primary");
+
+                let rentalId = $(this).attr("data-rentalId");
+
+                vm.rentalIds.push(rentalId);
+            })
+
+            
 
             let customers = new Bloodhound({
                 datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
@@ -50,16 +95,21 @@
                         url: "/api/rental/" + customer.id,
                         method: "get",
                     })
-                    .done(function (response) {
+                    .done(function (rentalData) {
+ 
+                        vm.customerId = null;
+                        $("#rental-results").empty();
+                        $("#current-rentals").empty();
+                        $("#previous-rentals").empty();
 
-                        toastr.success("Rentals successfully confirmed!")
+                        if (rentalData == false)
+                            $("#rental-results").append("<h3>This customer has no current rentals</h3>")
+                        else
+                            renderRentalData(rentalData);
 
-                        console.log(response);
-
-                        validator.resetForm();
                     })
                     .fail(function () {
-                        toastr.error("Something unexpected happened.")
+                        toastr.error("Customer doesn't exist!")
                     })
                 });
 
@@ -68,30 +118,34 @@
                 return vm.customerId && vm.customerId !== 0;
             }, "Please select a valid customer");
 
+            $.validator.addMethod("atLeastOneRental", function () {
+                return vm.rentalIds.length > 0;
+            }, "No rentals added to return");
 
-            //let validator = $("#newRental").validate({
-            //    submitHandler: function() {
-            //        $.ajax({
-            //            url: "/api/Rental",
-            //            method: "post",
-            //            data: vm
-            //        })
-            //        .done(function () {
-            //            toastr.success("Rentals successfully confirmed!")
 
-            //            $("#customer").typeahead("val", "");
+            let validator = $("#new-return").validate({
+                submitHandler: function() {
+                    $.ajax({
+                        url: "/api/Rental",
+                        method: "update",
+                        data: vm
+                    })
+                    .done(function () {
+                        toastr.success("Rentals successfully returned!")
 
-            //            vm = { movieIds: [] };
+                        $("#customer").typeahead("val", "");
 
-            //            validator.resetForm();
-            //        })
-            //        .fail(function () {
-            //            toastr.error("Something unexpected happened.")
-            //        })
+                        vm = { rentalIds: [] };
 
-            //        return false;
-            //    }
-            //});
+                        validator.resetForm();
+                    })
+                    .fail(function () {
+                        toastr.error("Something unexpected happened.")
+                    })
+
+                    return false;
+                }
+            });
 
         });
     </script>
