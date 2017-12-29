@@ -5,9 +5,9 @@ using System.Web;
 
 namespace VideGo.DTOs
 {
-    public class NewRentalDTO
+    public class RentalDTO
     {
         public int CustomerId { get; set; }
-        public List<int> MovieIds { get; set; }
+        public List<int> ids { get; set; }
     }
 }
