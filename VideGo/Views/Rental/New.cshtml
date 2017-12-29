@@ -83,7 +83,7 @@
 
                     $("#movie").typeahead("val", "");
 
-                    vm.movieIds.push(movie.id);
+                    vm.ids.push(movie.id);
                 });
 
             $.validator.addMethod("validCustomer", function () {
@@ -91,7 +91,7 @@
             }, "Please select a valid customer");
 
             $.validator.addMethod("atLeastOneMovie", function () {
-                return vm.movieIds.length > 0;
+                return vm.ids.length > 0;
             }, "Please select at least on movie");
 
             let validator = $("#newRental").validate({

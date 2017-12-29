@@ -26,7 +26,7 @@
         </div>
     </div>
     <br />
-    <button class="btn btn-success">Return Movies</button>
+    <button class="btn btn-success">Submit Return</button>
 </form>
 
 
@@ -47,7 +47,7 @@
 
                 rentalData.forEach(function (rental) {
                     if (rental.dateReturned === null) {
-                        var rentalListItem = $("<li>").addClass("list-group-item col-md-12");
+                        let rentalListItem = $("<li>").addClass("list-group-item col-md-12");
 
                         rentalListItem.append(`<div class="col-md-8">
                             <h4>${rental.movie.title}</h4>
@@ -58,6 +58,13 @@
                         $("#current-rentals").append(rentalListItem); 
                     }
                 })
+            }
+
+            function clearInputs() {
+                //vm.customerId = null;
+                $("#rental-results").empty();
+                $("#current-rentals").empty();
+                $("#previous-rentals").empty();
             }
 
             $("#current-rentals").on("click", ".return-button", function (e) {
@@ -96,11 +103,8 @@
                         method: "get",
                     })
                     .done(function (rentalData) {
- 
-                        //vm.customerId = null;
-                        $("#rental-results").empty();
-                        $("#current-rentals").empty();
-                        $("#previous-rentals").empty();
+
+                        clearInputs();
 
                         if (rentalData == false)
                             $("#rental-results").append("<h3>This customer has no current rentals</h3>")
@@ -120,26 +124,29 @@
 
 
             let validator = $("#new-return").validate({
-                submitHandler: function() {
-                    $.ajax({
-                        url: "/api/Rental",
-                        method: "put",
-                        data: vm
-                    })
-                    .done(function () {
-                        toastr.success("Rentals successfully returned!")
+                submitHandler: function () {
+                    if (vm.ids.length > 0) {
+                        $.ajax({
+                            url: "/api/Rental",
+                            method: "put",
+                            data: vm
+                        })
+                            .done(function () {
+                                toastr.success("Rentals successfully returned!")
 
-                        vm.customerId = null;
+                                vm.customerId = null;
 
-                        $("#customer").typeahead("val", "");
+                                $("#customer").typeahead("val", "");
+                                clearInputs();
 
-                        vm = { rentalIds: [] };
+                                vm = { rentalIds: [] };
 
-                        validator.resetForm();
-                    })
-                    .fail(function () {
-                        toastr.error("Something unexpected happened.")
-                    })
+                                validator.resetForm();
+                            })
+                            .fail(function () {
+                                toastr.error("Something unexpected happened.")
+                            })
+                    }
 
                     return false;
                 }
