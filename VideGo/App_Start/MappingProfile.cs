@@ -17,11 +17,13 @@ namespace VideGo.App_Start
             Mapper.CreateMap<Movie, MovieDTO>();
             Mapper.CreateMap<MembershipType, MembershipTypeDTO>();
             Mapper.CreateMap<Genre, GenreDTO>();
+            Mapper.CreateMap<Rental, ReturnDTO>();
 
 
             // Map DTO to Domain
-            Mapper.CreateMap<CustomerDTO, Customer>().ForMember(c=>c.Id,opt=>opt.Ignore());
-            Mapper.CreateMap<MovieDTO, Movie>().ForMember(c => c.Id, opt => opt.Ignore());
+            Mapper.CreateMap<CustomerDTO, Customer>().ForMember(c => c.Id, opt => opt.Ignore());
+            Mapper.CreateMap<MovieDTO, Movie>().ForMember(m => m.Id, opt => opt.Ignore());
+            Mapper.CreateMap<ReturnDTO, Rental>().ForMember(r => r.Id, opt => opt.Ignore());
         }
     }
 }

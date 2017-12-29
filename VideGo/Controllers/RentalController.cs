@@ -13,5 +13,11 @@ namespace VideGo.Controllers
         {
             return View();
         }
+
+        // GET: Rental
+        public ActionResult Return()
+        {
+            return View();
+        }
     }
 }

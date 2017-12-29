@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -9,11 +11,11 @@ using VideGo.Models;
 
 namespace VideGo.Controllers.Api
 {
-    public class NewRentalController : ApiController
+    public class RentalController : ApiController
     {
         private ApplicationDbContext _context;
 
-        public NewRentalController()
+        public RentalController()
         {
             _context = new ApplicationDbContext();
         }
@@ -21,6 +23,21 @@ namespace VideGo.Controllers.Api
         protected override void Dispose(bool disposing)
         {
             _context.Dispose();
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetRentals(int id)
+        {
+
+            var customerRentals = _context.Rentals
+                .Include(r => r.Movie)
+                .Where(r => r.Customer.Id == id);
+
+            var customerRentalDTO = customerRentals
+                .ToList()
+                .Select(Mapper.Map<Rental, ReturnDTO>);
+
+            return Ok(customerRentalDTO);
         }
 
         [HttpPost]
