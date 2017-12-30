@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace VideGo.Controllers
 {
     [AllowAnonymous]
-    [OutputCache(Duration = 180, Location = System.Web.UI.OutputCacheLocation.Server)]
+    //[OutputCache(Duration = 180, Location = System.Web.UI.OutputCacheLocation.Server)]
     public class HomeController : Controller
     {
         public ActionResult Index()
